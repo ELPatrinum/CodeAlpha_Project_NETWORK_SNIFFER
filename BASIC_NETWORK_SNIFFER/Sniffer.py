@@ -1,7 +1,8 @@
 import socket
 import struct
 import textwrap
-from colorama import Fore, Style
+from colorama import Fore, Style, init
+init()
 import sys
 from datetime import datetime
 
@@ -58,9 +59,6 @@ def get_time_now():
 	now = datetime.now()
 	timestamp = now.strftime("%Y%m%d_%H%M%S")
 	return timestamp
-
-
-
 
 
 def tcp_segment(data):
@@ -153,12 +151,8 @@ def format_multi_line(prefix, string, size=80):
         if size % 2:
             size -= 1
     return '\n'.join([prefix + line for line in textwrap.wrap(string, 	size)])
-import sys
-import socket
-from colorama import Fore, Style, init
 
-# Initialize colorama (required on Windows)
-init()
+
 
 class DualOutput:
     def __init__(self, file):
@@ -166,8 +160,8 @@ class DualOutput:
         self.stdout = sys.stdout
 
     def write(self, message):
-        self.stdout.write(message)  # Write to the console
-        self.file.write(message)     # Write to the file
+        self.stdout.write(message)
+        self.file.write(message)
 
     def flush(self):
         self.stdout.flush()
@@ -350,7 +344,6 @@ def main():
 		print(Style.RESET_ALL + "\nCtrl+C detected. Exiting gracefully...")
 		sys.exit(0)
 	finally:
-		# Restore the original stdout and close the file
 		if dual_output:
 			sys.stdout = dual_output.stdout
 		if file:
