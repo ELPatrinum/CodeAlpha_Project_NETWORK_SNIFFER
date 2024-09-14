@@ -1,6 +1,8 @@
 ### 1. **Introduction to Phishing**
    - **Definition:** What is phishing?
      - A cyberattack where attackers pose as legitimate entities to steal sensitive information like usernames, passwords, and credit card numbers.
+     - ![_97b9636c-ae99-4830-af25-08ada4f40a5f](https://github.com/user-attachments/assets/9a9dac17-5d00-4646-a3ba-5b770d5c24a4)
+
    - **Types of Phishing Attacks:**
      - Email Phishing
      - Spear Phishing (targeted attacks)
