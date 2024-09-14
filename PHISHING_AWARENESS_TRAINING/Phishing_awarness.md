@@ -10,9 +10,9 @@ Phishing is a **cyberattack** where an attacker pretends to be a trusted entity 
 
 These attacks are typically carried out via emails, websites, SMS messages, or phone calls that seem legitimate.
 
-![1699984294706](https://github.com/user-attachments/assets/52fca634-ea24-4572-b5eb-9e03dd644d6c)
-#### **Types of Phishing Attacks:**
 
+#### **Types of Phishing Attacks:**
+![1699984294706](https://github.com/user-attachments/assets/52fca634-ea24-4572-b5eb-9e03dd644d6c)
 - **Email Phishing:** The most common form. Attackers send emails that look like they come from trusted sources (banks, online services). These emails contain malicious links or attachments.
   
 - **Spear Phishing:** A highly targeted attack where a specific individual or organization is singled out. Attackers customize the message using details about the target to make the email seem authentic.
@@ -28,9 +28,8 @@ These attacks are typically carried out via emails, websites, SMS messages, or p
 ---
 
 
-![phishing_working_2-What_Is_Phishing](https://github.com/user-attachments/assets/05525d0d-06a1-4918-b5c9-df8e9736600f)
 ### 2. **How Phishing Works**
-
+![phishing_working_2-What_Is_Phishing](https://github.com/user-attachments/assets/05525d0d-06a1-4918-b5c9-df8e9736600f)
 #### **Process:**
 1. **Initial Contact:** Phishing attacks often start with an email, text message, or phone call that looks genuine. The attacker pretends to be someone you know or trust (e.g., your bank or a colleague).
    
@@ -54,9 +53,9 @@ These attacks are typically carried out via emails, websites, SMS messages, or p
 
 ---
 
-![phish22-600x338](https://github.com/user-attachments/assets/1ec1a00d-8db9-4ad3-8c63-d24a6ea69e2f)
-### 3. **Recognizing Phishing Emails**
 
+### 3. **Recognizing Phishing Emails**
+![phish22-600x338](https://github.com/user-attachments/assets/1ec1a00d-8db9-4ad3-8c63-d24a6ea69e2f)
 #### **Red Flags to Watch For:**
 
 - **Sender's Email Address:** Phishing emails often come from addresses that look similar to real ones but may have slight variations. Always double-check the sender’s email.
@@ -73,9 +72,9 @@ These attacks are typically carried out via emails, websites, SMS messages, or p
 
 ---
 
-![Artboard 5](https://github.com/user-attachments/assets/25d71de8-5c73-481b-99fb-285b3e2a186b)
-### 4. **Avoiding Phishing Websites**
 
+### 4. **Avoiding Phishing Websites**
+![Artboard 5](https://github.com/user-attachments/assets/25d71de8-5c73-481b-99fb-285b3e2a186b)
 #### **How to Stay Safe:**
 - **Check the URL:** Before entering any personal information, verify that the website’s URL is correct. Attackers often create fake sites that look almost identical to real ones, but with slight differences in the domain name (e.g., paypa1.com instead of paypal.com).
 
