@@ -1,4 +1,4 @@
-![phish22-600x338](https://github.com/user-attachments/assets/5b86377e-507c-434a-9b7a-c3d9af621ba4)### 1. **Introduction to Phishing**
+### 1. **Introduction to Phishing**
    - **Definition:** What is phishing?
      - A cyberattack where attackers pose as legitimate entities to steal sensitive information like usernames, passwords, and credit card numbers.
      - ![_97b9636c-ae99-4830-af25-08ada4f40a5f](https://github.com/user-attachments/assets/9a9dac17-5d00-4646-a3ba-5b770d5c24a4)
