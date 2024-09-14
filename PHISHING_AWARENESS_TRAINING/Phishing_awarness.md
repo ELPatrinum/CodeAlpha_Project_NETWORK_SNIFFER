@@ -1,4 +1,4 @@
-### 1. **Introduction to Phishing**
+![phish22-600x338](https://github.com/user-attachments/assets/5b86377e-507c-434a-9b7a-c3d9af621ba4)### 1. **Introduction to Phishing**
    - **Definition:** What is phishing?
      - A cyberattack where attackers pose as legitimate entities to steal sensitive information like usernames, passwords, and credit card numbers.
      - ![_97b9636c-ae99-4830-af25-08ada4f40a5f](https://github.com/user-attachments/assets/9a9dac17-5d00-4646-a3ba-5b770d5c24a4)
@@ -10,6 +10,8 @@
      - Vishing (phishing via voice calls)
      - Whaling (targeting high-profile individuals)
      - Clone Phishing
+     - ![image](https://github.com/user-attachments/assets/69ce8390-264c-4787-90a8-4b23c5642576)
+
 
 ### 2. **How Phishing Works**
    - **Process:**
@@ -21,6 +23,9 @@
      - Spoofing legitimate brands (emails/websites look almost identical to real ones)
      - Creating a sense of urgency (“Your account will be deactivated”)
      - Emotional manipulation (appealing to fear, curiosity, or greed)
+    
+     - ![image](https://github.com/user-attachments/assets/f0a5e6fe-4359-4c19-ae36-3c87e03d146f)
+
 
 ### 3. **Recognizing Phishing Emails**
    - **Red Flags to Watch For:**
@@ -30,6 +35,8 @@
      - **Unexpected Attachments:** Never open attachments from unknown senders.
      - **Urgent Language:** Beware of scare tactics urging immediate action.
      - **Suspicious Links:** Hover over links to check their true destination.
+     - ![phish22-600x338](https://github.com/user-attachments/assets/0cc337e2-535a-479b-8ad9-df2eff8f0724)
+
 
 ### 4. **Avoiding Phishing Websites**
    - **Check the URL:** Ensure the domain name is correct and uses "https".
