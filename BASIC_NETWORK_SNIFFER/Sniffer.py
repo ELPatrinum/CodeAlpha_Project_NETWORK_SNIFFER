@@ -18,7 +18,7 @@ DATA_TAB_4 = '\t\t\t\t '
 
 
 def print_prog_name():
-	print("""
+	print(Fore.MAGENTA + """
 ███████╗██╗     ██████╗  █████╗ ████████╗██████╗ ██╗███╗   ██╗██╗   ██╗███╗   ███╗
 ██╔════╝██║     ██╔══██╗██╔══██╗╚══██╔══╝██╔══██╗██║████╗  ██║██║   ██║████╗ ████║
 █████╗  ██║     ██████╔╝███████║   ██║   ██████╔╝██║██╔██╗ ██║██║   ██║██╔████╔██║
@@ -26,10 +26,10 @@ def print_prog_name():
 ███████╗███████╗██║     ██║  ██║   ██║   ██║  ██║██║██║ ╚████║╚██████╔╝██║ ╚═╝ ██║
 ╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚═╝
 """)
-	print("""
-┳┓┏┓┏┳┓┓ ┏┏┓┳┓┓┏┓  ┏┓┳┓┳┏┓┏┓┏┓┳┓
-┃┃┣  ┃ ┃┃┃┃┃┣┫┃┫   ┗┓┃┃┃┣ ┣ ┣ ┣┫
-┛┗┗┛ ┻ ┗┻┛┗┛┛┗┛┗┛  ┗┛┛┗┻┻ ┻ ┗┛┛┗
+	print(Fore.BLUE + """
+			┳┓┏┓┏┳┓┓ ┏┏┓┳┓┓┏┓  ┏┓┳┓┳┏┓┏┓┏┓┳┓
+			┃┃┣  ┃ ┃┃┃┃┃┣┫┃┫   ┗┓┃┃┃┣ ┣ ┣ ┣┫
+			┛┗┗┛ ┻ ┗┻┛┗┛┛┗┛┗┛  ┗┛┛┗┻┻ ┻ ┗┛┛┗
 """)
 
 def get_mac_addr(bytes_addr):
@@ -167,21 +167,60 @@ class DualOutput:
         self.stdout.flush()
         self.file.flush()
 
-def main():
-	backup_file = get_backup_filename()
-	file = None
-	dual_output = None
+def print_strings(strings):
+	print_prog_name()
+	print(Style.RESET_ALL + "\nEnter a specific packet type you want to sniff, or type 'all' to sniff all:\n")
+	print(Fore.YELLOW + "Supported Protocls :")
+	for string in strings:
+		print(Fore.GREEN + string)
+	print(Style.RESET_ALL + "\n---------------------------------------------------------------------------\n")
 
+def get_protocol_number(protocol_name):
+	protocol_mapping = {
+		"ICMP": 1,
+		"TCP": 6,
+		"UDP": 17,
+		"HTTP": 80,
+		"FTP": 21,
+		"SMTP": 25,
+		"HTTPS": 443,
+		"SSH": 22,
+		"SCTP": 132,
+		"DNS": 53,
+		"BGP": 179,
+		"DHCP": 67,
+		"IGMP": 2,
+		"IGRP": 9,
+		"GRE": 47,
+		"ESP": 50,
+		"AH": 51,
+		"SKIP": 75,
+		"EIGRP": 88,
+		"OSPF": 89,
+		"ALL": 0
+	}
+	return protocol_mapping.get(protocol_name.upper(), 404)
+
+def main():
 	try:
+		backup_file = get_backup_filename()
+		file = None
+		dual_output = None
+		protoclos = ["ICMP", "TCP", "UDP", "HTTP", "FTP", "SMTP", "HTTPS", "SSH", "SCTP", "DNS", "BGP", "DHCP", "IGMP", "IGRP", "GRE", "ESP", "AH", "SKIP", "EIGRP", "OSPF"]
+		print_strings(protoclos);
+		user_input = input("=>")
+		protonumb = get_protocol_number(user_input)
+		if protonumb == 404:
+			print(Fore.RED + "Protocol not recognized.")
+			sys.exit(1)
 		file = open(backup_file, 'w')
 		dual_output = DualOutput(file)
 		sys.stdout = dual_output
 		
-		print("Program is running at [ " + get_time_now() + " ]. Press Ctrl+C to quit.")
-		
+		print("Program is running at [ " + get_time_now() + " ]")
+
 		while True:
 			cnx = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
-			print_prog_name()
 			while True:
 				raw_data, _ = cnx.recvfrom(65536)
 				dest_mac, src_mac, eth_proto, data = ethernet_frame(raw_data)
@@ -195,14 +234,14 @@ def main():
 					print(TAB_2 + Fore.BLUE + 'Version: {}, Header Length: {}, TTL: {}'.format(version, headerlen, ttl))
 					print(TAB_2 + Fore.BLUE + 'Protocol: {}, Source: {}, Target: {}'.format(proto, src, target))
 
-					if proto == 1:
+					if proto == 1 and (proto == protonumb or protonumb == 0):
 						icmp_type, code, checksum, payload = icmp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'ICMP Packet:')
 						print(TAB_2 + Fore.BLUE + 'Type: {}, Code: {}, Checksum: {}'.format(icmp_type, code, checksum))
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 6:
+					elif proto == 6 and (proto == protonumb or protonumb == 0):
 						src_port, dest_port, sequence, ack, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn, flag_fin, payload = tcp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'TCP Segment:')
 						print(TAB_2 + Fore.BLUE + 'SRC Port: {}, DST Port: {}'.format(src_port, dest_port))
@@ -212,7 +251,7 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 17:
+					elif proto == 17 and (proto == protonumb or protonumb == 0):
 						src_port, dest_port, length, checksum, payload = udp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'UDP Segment:')
 						print(TAB_2 + Fore.BLUE + 'SRC Port: {}, DST Port: {}'.format(src_port, dest_port))
@@ -222,26 +261,26 @@ def main():
 
 					elif proto in [80, 21, 25]:
 						message = http_ftp_smtp_message(data)
-						if proto == 80:
+						if proto == 80 and (proto == protonumb or protonumb == 0):
 							print(TAB_1 + Fore.YELLOW + 'HTTP Message:')
-						elif proto == 21:
+						elif proto == 21 and (proto == protonumb or protonumb == 0):
 							print(TAB_1 + Fore.YELLOW + 'FTP Message:')
-						elif proto == 25:
+						elif proto == 25 and (proto == protonumb or protonumb == 0):
 							print(TAB_1 + Fore.YELLOW + 'SMTP Message:')
 						print(TAB_2 + Fore.BLUE + 'Message:')
 						print(DATA_TAB_3 + Fore.GREEN + message)
 
-					elif proto == 443:
+					elif proto == 443 and (proto == protonumb or protonumb == 0):
 						message = https_message(data)
 						print(TAB_1 + Fore.YELLOW + 'HTTPS Message:')
 						print(DATA_TAB_3 + Fore.GREEN + message)
 
-					elif proto == 22:
+					elif proto == 22 and (proto == protonumb or protonumb == 0):
 						message = ssh_message(data)
 						print(TAB_1 + Fore.YELLOW + 'SSH Message:')
 						print(DATA_TAB_3 + Fore.GREEN + message)
 
-					elif proto == 132:
+					elif proto == 132 and (proto == protonumb or protonumb == 0):
 						src_port, dest_port, verification_tag, checksum, payload = sctp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'SCTP Segment:')
 						print(TAB_2 + Fore.BLUE + 'SRC Port: {}, DST Port: {}'.format(src_port, dest_port))
@@ -249,7 +288,7 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 53:
+					elif proto == 53 and (proto == protonumb or protonumb == 0):
 						transaction_id, flags, questions, answer_rrs, authority_rrs, additional_rrs, payload = dns_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'DNS Packet:')
 						print(TAB_2 + Fore.BLUE + 'Transaction ID: {}, Flags: {}'.format(transaction_id, flags))
@@ -258,14 +297,14 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 179:
+					elif proto == 179 and (proto == protonumb or protonumb == 0):
 						marker, length, message_type, payload = bgp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'BGP Segment:')
 						print(TAB_2 + Fore.BLUE + 'Marker: {}, Length: {}, Message Type: {}'.format(marker, length, message_type))
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 67 or proto == 68:
+					elif proto == 67 and (proto == protonumb or protonumb == 0):
 						op, htype, hlen, hops, xid, secs, flags, ciaddr, yiaddr, siaddr, giaddr, chaddr, payload = dhcp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'DHCP Packet:')
 						print(TAB_2 + Fore.BLUE + 'Operation: {}, Hardware Type: {}, Hardware Length: {}'.format(op, htype, hlen))
@@ -275,7 +314,7 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 2:
+					elif proto == 2 and (proto == protonumb or protonumb == 0):
 						igmp_type, max_resp_time, checksum, group_address, payload = igmp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'IGMP Packet:')
 						print(TAB_2 + Fore.BLUE + 'Type: {}, Max Response Time: {}, Checksum: {}'.format(igmp_type, max_resp_time, checksum))
@@ -283,7 +322,7 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 9:
+					elif proto == 9 and (proto == protonumb or protonumb == 0):
 						version, opcode, edition, as_number, hold_time, in_count, out_count, checksum, payload = igrp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'IGRP Packet:')
 						print(TAB_2 + Fore.BLUE + 'Version: {}, Opcode: {}'.format(version, opcode))
@@ -299,14 +338,14 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 50:
+					elif proto == 50 and (proto == protonumb or protonumb == 0):
 						spi, seq_number, payload = esp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'ESP Packet:')
 						print(TAB_2 + Fore.BLUE + 'SPI: {}, Sequence Number: {}'.format(spi, seq_number))
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 				
-					elif proto == 51:
+					elif proto == 51 and (proto == protonumb or protonumb == 0):
 						next_header, payload_len, spi, seq_number, payload = ah_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'AH Packet:')
 						print(TAB_2 + Fore.BLUE + 'Next Header: {}, Payload Length: {}'.format(next_header, payload_len))
@@ -314,7 +353,7 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 57:
+					elif proto == 57 and (proto == protonumb or protonumb == 0):
 						header_type, flags, key_id, spi, payload = skip_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'SKIP Packet:')
 						print(TAB_2 + Fore.BLUE + 'Header Type: {}, Flags: {}'.format(header_type, flags))
@@ -322,7 +361,7 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 88:
+					elif proto == 88 and (proto == protonumb or protonumb == 0):
 						version, opcode, checksum, flags, seq_number, ack_number, payload = eigrp_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'EIGRP Packet:')
 						print(TAB_2 + Fore.BLUE + 'Version: {}, Opcode: {}'.format(version, opcode))
@@ -331,7 +370,7 @@ def main():
 						print(TAB_2 + Fore.BLUE + 'Payload:')
 						print(Fore.GREEN + format_multi_line(DATA_TAB_3, payload))
 
-					elif proto == 89:
+					elif proto == 89 and (proto == protonumb or protonumb == 0):
 						version, type, length, router_id, area_id, checksum, auth_type, payload = ospf_segment(data)
 						print(TAB_1 + Fore.YELLOW + 'OSPF Packet:')
 						print(TAB_2 + Fore.BLUE + 'Version: {}, Type: {}'.format(version, type))
@@ -348,8 +387,6 @@ def main():
 			sys.stdout = dual_output.stdout
 		if file:
 			file.close()
-
-
 
 if __name__ == '__main__':
     main()
