@@ -169,11 +169,11 @@ class DualOutput:
 
 def print_strings(strings):
 	print_prog_name()
-	print(Style.RESET_ALL + "\nEnter a specific packet type you want to sniff, or type 'all' to sniff all:\n")
+	print(Style.RESET_ALL + "You can filter by a specific packet type, or enter 'all' to sniff all packet types:\n")
 	print(Fore.YELLOW + "Supported Protocls :")
 	for string in strings:
 		print(Fore.GREEN + string)
-	print(Style.RESET_ALL + "\n---------------------------------------------------------------------------\n")
+	print(Style.RESET_ALL + "\n---------------------------------------------------------------------------------\n")
 
 def get_protocol_number(protocol_name):
 	protocol_mapping = {
